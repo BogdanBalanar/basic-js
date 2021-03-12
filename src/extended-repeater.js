@@ -1,29 +1,13 @@
+
 module.exports = function repeater(str, options) {
-  let str2 = str === null ? 'null' : str;
-  let repeatTimes = options.repeatTimes ? options.repeatTimes : 1;
-  let separator = options.separator ? options.separator : '+';
-  let additionRepeatTimes = options.additionRepeatTimes ? options.additionRepeatTimes : 1;
-  let additionSeparator = options.additionSeparator ? options.additionSeparator : '|';
-  let res = '';
-  let str1 = '';
-  if (options.addition !== undefined) {
-    for (let i = 0; i < additionRepeatTimes; i++) {
-      if (options.addition === null) {
-        str1 += 'null';
-      } else {
-        str1 += options.addition.toString();
-      }
-      if (i + 1 != additionRepeatTimes) {
-        str1 += additionSeparator;
-      }
+  const arr = [String(str)];
+  const addArr = [String(options.addition)];
+  for (let i = 0; i < Number(options.repeatTimes) - 1; i++) {arr.push(String(str))}
+  if (String(options.addition) === "null" || options.addition || String(options.addition) === "false" ) {
+    for (let i = 0; i < Number(options.additionRepeatTimes) - 1; i++) {
+      addArr.push(String(options.addition))
     }
+    return arr.map((item) => item + addArr.join(options.additionSeparator || '|')).join(options.separator || '+');
   }
-  for (let i = 0;i < repeatTimes; i++) {
-    res += str2.toString() + str1;
-    if (i + 1 != repeatTimes) {
-      res += separator;
-    }
-  }
-  return res;
+  return arr.join(options.separator || '+')
 };
-  
